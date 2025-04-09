@@ -1,22 +1,37 @@
-
 import streamlit as st
 import pandas as pd
-from src.model import load_model, predict_clusters
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from src.model import save_model
+from src import preprocessing
 
-st.title("🧠 Customer Segmentation (KMeans Clustering)")
+st.title("Customer Segmentation (KMeans Clustering)")
 
-st.write("Enter customer information to predict cluster segment:")
+# Load and preprocess data
+df = preprocessing.load_data("data/mall_customers.csv")
+X = preprocessing.select_features(df)
 
-income = st.slider("Annual Income (k$)", 10, 150, 50)
-score = st.slider("Spending Score (1-100)", 1, 100, 50)
+# Sidebar - number of clusters
+st.sidebar.header("🛠️ Clustering Settings")
+n_clusters = st.sidebar.slider("Select number of clusters:", 2, 10, 5)
 
-input_df = pd.DataFrame([{
-    "Annual_Income": income,
-    "Spending_Score": score
-}])
+# Fit KMeans
+model = KMeans(n_clusters=n_clusters, random_state=42)
+model.fit(X)
+labels = model.predict(X)
 
-model = load_model()
+# Save the trained model (optional)
+save_model(model)
 
-if st.button("Predict Cluster"):
-    cluster = predict_clusters(model, input_df)[0]
-    st.success(f"🧾 This customer belongs to Cluster #{cluster}")
+# Scatter plot
+fig, ax = plt.subplots()
+scatter = ax.scatter(X.iloc[:, 0], X.iloc[:, 1], c=labels, cmap='viridis')
+ax.set_xlabel(X.columns[0])
+ax.set_ylabel(X.columns[1])
+ax.set_title(f"KMeans Clustering (k={n_clusters})")
+st.pyplot(fig)
+
+# Show cluster counts
+st.subheader("🔍 Cluster Distribution")
+cluster_counts = pd.Series(labels).value_counts().sort_index()
+st.bar_chart(cluster_counts)
