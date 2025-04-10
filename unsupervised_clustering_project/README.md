@@ -1,8 +1,8 @@
-# 🧠 Unsupervised Customer Clustering
+# Unsupervised Customer Clustering
 
 This project uses KMeans to cluster mall customers based on income and spending score, helping to identify distinct customer segments.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 unsupervised_clustering_project/
@@ -21,7 +21,7 @@ unsupervised_clustering_project/
 └── README.md
 ```
 
-## 🚀 How to Run
+## How to Run
 
 1. Install packages:
    ```bash
@@ -40,7 +40,7 @@ unsupervised_clustering_project/
    streamlit run app.py
    ```
 
-## 📊 Output
+## Output
 
 - KMeans clustering model
 - Customer segment visualization
