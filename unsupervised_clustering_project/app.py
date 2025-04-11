@@ -1,14 +1,18 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 from sklearn.cluster import KMeans
 from src.model import save_model
 from src import preprocessing
 
 st.title("Customer Segmentation (KMeans Clustering)")
 
-# Load and preprocess data
-df = preprocessing.load_data("data/mall_customers.csv")
+# ✅ Load and preprocess data (using a robust path)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+data_path = os.path.join(current_dir, "data", "mall_customers.csv")
+df = preprocessing.load_data(data_path)
+
 X = preprocessing.select_features(df)
 
 # Sidebar - number of clusters
