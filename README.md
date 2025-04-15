@@ -44,4 +44,4 @@ unsupervised_clustering_project/
 
 - KMeans clustering model
 - Customer segment visualization
-- Streamlit UI for interactive predictions
+- Streamlit UI for interactive predictions: https://ac-ml-ucp-hh-2025.streamlit.app/
